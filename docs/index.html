@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>RevealJS : /Users/mdease/dev/npm-techshare/slides.md</title>
+        <link rel="stylesheet" href="css/reveal.css">
+        <link rel="stylesheet" href="css/theme/night.css" id="theme">
+        
+       
+        <!-- For syntax highlighting -->
+        <link rel="stylesheet" href="lib/css/Zenburn.css">
+
+        
+
+        <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+        <script>
+          document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+        </script>
+
+        <style type="text/css">
+            @page {    
+              margin: 0;
+              size: auto; 
+            }
+        </style>
+
+        <script>
+         if(window.location.search.match( /print-pdf-now/gi )) {
+           window.print();
+         }
+      </script>
+
+    </head>
+    <body>
+
+        <div class="reveal">
+            <div class="slides"><section  data-markdown><script type="text/template">
+<style type="text/css">
+  .reveal p {
+    text-align: left;
+  }
+  .reveal ul {
+    display: block;
+  }
+  .reveal ol {
+    display: block;
+  }
+</style>
+
+## NPM Package Development
+</script></section><section  data-markdown><script type="text/template">
+### Overview
+
+* Current state of JS module formats
+* Package configuration & tooling
+* Development workflows
+</script></section><section  data-markdown><script type="text/template">
+#### Module Formats
+
+### CommonJS
+
+* Module format for NodeJS
+* Build tools (browserify etc.) enable these modules to be used in the browser
+* Example module:
+
+```js
+// index.js
+module.exports = myLib;
+```
+
+* Entry point is specified by the `main` field in `package.json`:
+
+```json
+{
+  "main": "index.js"
+}
+```
+</script></section><section  data-markdown><script type="text/template">
+#### Module Formats
+
+### ES Modules (ESM)
+
+* Language-level module support
+* Supports multiple named exports and a default export
+* Experimental Node support (requires `.mjs` extension)
+* Example Module:
+
+```js
+// index.esm.js
+export const anything = true;
+export default myLib;
+```
+
+</script></section><section  data-markdown><script type="text/template">
+#### Module Formats
+
+### ESM Recommendations
+
+* ESM module should only use `import`/`export`, other ES2015+ features should be transpiled.
+* Use the proposed `module` field in `package.json` for main ESM entry file (webpack will use it over `main` if available).
+* Example `package.json`:
+
+```json
+{
+  "main": "index.js",
+  "module": "index.esm.js"
+}
+```
+</script></section><section  data-markdown><script type="text/template">
+### Packaging
+
+Configure Distributed Files
+* `.npmignore` - File blacklist
+* `files` property - File whitelist
+
+Useful Commands
+
+* `npm pack` - Create a tarball of a package
+* `npm version` - Bump package version
+</script></section><section  data-markdown><script type="text/template">
+### Local Development Workflow
+
+Use case: Locally developing a lib and an app that uses the lib
+
+In `my-great-lib/`:
+
+```js
+// package.json
+{ "name": "my-lib" }
+```
+
+* Run *`npm link`*. (registers `my-lib` globally)
+
+In `my-ok-app/`:
+
+* Run *`npm link my-lib`*. Symlinks `my-lib` into `node_modules` for use in the app, `my-lib` updates as files in `my-great-lib/` change.
+</script></section><section  data-markdown><script type="text/template">
+### Resources
+
+* https://docs.npmjs.com/
+* https://github.com/rollup/rollup/wiki/pkg.module
+* https://nodejs.org/api/esm.html
+* http://2ality.com/2017/09/native-esm-node.html
+
+
+</script></section></div>
+        </div>
+
+        <script src="lib/js/head.min.js"></script>
+        <script src="js/reveal.js"></script>
+
+        <script>
+            function extend() {
+              var target = {};
+              for (var i = 0; i < arguments.length; i++) {
+                var source = arguments[i];
+                for (var key in source) {
+                  if (source.hasOwnProperty(key)) {
+                    target[key] = source[key];
+                  }
+                }
+              }
+              return target;
+            }
+            // Optional libraries used to extend on reveal.js
+            var deps = [
+              { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+              { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector('[data-markdown]'); } },
+              { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector('[data-markdown]'); } },
+              { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+              { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+              { src: 'plugin/math/math.js', async: true }
+            ];
+            // default options to init reveal.js
+            var defaultOptions = {
+              controls: true,
+              progress: true,
+              history: true,
+              center: true,
+              transition: 'default',
+              dependencies: deps
+            };
+            // options from URL query string
+            var queryOptions = Reveal.getQueryHash() || {};
+            var options = {
+  "notesSeparator": "note:",
+  "separator": "^[\r\n?|\n]---[\r\n?|\n]$",
+  "verticalSeparator": "^[\r\n?|\n]--[\r\n?|\n]$",
+  "theme": "night",
+  "highlightTheme": "Zenburn",
+  "controls": false,
+  "progress": true,
+  "slideNumber": false,
+  "history": true,
+  "keyboard": true,
+  "overview": true,
+  "center": true,
+  "touch": true,
+  "loop": false,
+  "rtl": false,
+  "shuffle": false,
+  "fragments": true,
+  "embedded": false,
+  "help": true,
+  "showNotes": false,
+  "autoSlide": 0,
+  "autoSlideStoppable": true,
+  "mouseWheel": false,
+  "hideAddressBar": true,
+  "previewLinks": false,
+  "transition": "none",
+  "transitionSpeed": "default",
+  "backgroundTransition": "default",
+  "viewDistance": 3,
+  "parallaxBackgroundImage": "",
+  "parallaxBackgroundSize": "",
+  "parallaxBackgroundHorizontal": null,
+  "parallaxBackgroundVertical": null,
+  "attributes": ""
+};
+            options = extend(defaultOptions, options, queryOptions);
+            Reveal.initialize(options);
+
+        </script>
+        
+    </body>
+</html>
