@@ -16,7 +16,7 @@ theme: night
   }
 </style>
 
-## NPM Package Development
+## NPM Package Authoring
 
 ---
 
